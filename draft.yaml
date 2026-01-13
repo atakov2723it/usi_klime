@@ -1,0 +1,49 @@
+models:
+  Product:
+    name: string
+    brand: string
+    btu: integer
+    price: integer
+    stock: integer
+    description: text nullable
+    timestamps: true
+
+  Order:
+    user_id: id foreign:users
+    status: enum:pending,paid,shipped,cancelled default:pending
+    total: integer default:0
+    timestamps: true
+    relationships:
+      belongsTo: User
+      hasMany: OrderItem
+
+  OrderItem:
+    order_id: id foreign:orders
+    product_id: id foreign:products
+    quantity: integer default:1
+    unit_price: integer
+    timestamps: true
+    relationships:
+      belongsTo: Order, Product
+
+  ServiceRequest:
+    user_id: id foreign:users
+    product_id: id foreign:products nullable
+    phone: string
+    address: string
+    preferred_date: date
+    note: text nullable
+    status: enum:new,scheduled,done,cancelled default:new
+    timestamps: true
+    relationships:
+      belongsTo: User, Product
+
+controllers:
+  ProductController:
+    resource: web
+  OrderController:
+    resource: web
+  OrderItemController:
+    resource: web
+  ServiceRequestController:
+    resource: web
