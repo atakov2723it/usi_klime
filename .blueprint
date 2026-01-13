@@ -1,0 +1,52 @@
+created:
+    - app/Http/Controllers/ProductController.php
+    - app/Http/Controllers/OrderController.php
+    - app/Http/Controllers/OrderItemController.php
+    - app/Http/Controllers/ServiceRequestController.php
+    - database/factories/ProductFactory.php
+    - database/factories/OrderFactory.php
+    - database/factories/OrderItemFactory.php
+    - database/factories/ServiceRequestFactory.php
+    - database/migrations/2026_01_13_051554_create_products_table.php
+    - database/migrations/2026_01_13_051555_create_orders_table.php
+    - database/migrations/2026_01_13_051556_create_order_items_table.php
+    - database/migrations/2026_01_13_051557_create_service_requests_table.php
+    - app/Models/Product.php
+    - app/Models/Order.php
+    - app/Models/OrderItem.php
+    - app/Models/ServiceRequest.php
+    - tests/Feature/Http/Controllers/ProductControllerTest.php
+    - tests/Feature/Http/Controllers/OrderControllerTest.php
+    - tests/Feature/Http/Controllers/OrderItemControllerTest.php
+    - tests/Feature/Http/Controllers/ServiceRequestControllerTest.php
+    - app/Http/Requests/ProductStoreRequest.php
+    - app/Http/Requests/ProductUpdateRequest.php
+    - app/Http/Requests/OrderStoreRequest.php
+    - app/Http/Requests/OrderUpdateRequest.php
+    - app/Http/Requests/OrderItemStoreRequest.php
+    - app/Http/Requests/OrderItemUpdateRequest.php
+    - app/Http/Requests/ServiceRequestStoreRequest.php
+    - app/Http/Requests/ServiceRequestUpdateRequest.php
+    - resources/views/product/index.blade.php
+    - resources/views/product/create.blade.php
+    - resources/views/product/show.blade.php
+    - resources/views/product/edit.blade.php
+    - resources/views/order/index.blade.php
+    - resources/views/order/create.blade.php
+    - resources/views/order/show.blade.php
+    - resources/views/order/edit.blade.php
+    - resources/views/orderItem/index.blade.php
+    - resources/views/orderItem/create.blade.php
+    - resources/views/orderItem/show.blade.php
+    - resources/views/orderItem/edit.blade.php
+    - resources/views/serviceRequest/index.blade.php
+    - resources/views/serviceRequest/create.blade.php
+    - resources/views/serviceRequest/show.blade.php
+    - resources/views/serviceRequest/edit.blade.php
+updated:
+    - routes/web.php
+models:
+    Product: { name: string, brand: string, btu: integer, price: integer, stock: integer, description: 'text nullable', timestamps: timestamps }
+    Order: { user_id: 'id foreign:users', status: 'enum:pending,paid,shipped,cancelled default:pending', total: 'integer default:0', timestamps: timestamps, relationships: { belongsTo: User, hasMany: OrderItem } }
+    OrderItem: { order_id: 'id foreign:orders', product_id: 'id foreign:products', quantity: 'integer default:1', unit_price: integer, timestamps: timestamps, relationships: { belongsTo: 'Order, Product' } }
+    ServiceRequest: { user_id: 'id foreign:users', product_id: 'id foreign:products nullable', phone: string, address: string, preferred_date: date, note: 'text nullable', status: 'enum:new,scheduled,done,cancelled default:new', timestamps: timestamps, relationships: { belongsTo: 'User, Product' } }
