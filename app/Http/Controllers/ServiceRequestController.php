@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ServiceRequestStoreRequest;
 use App\Http\Requests\ServiceRequestUpdateRequest;
 use App\Models\ServiceRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 
 class ServiceRequestController extends Controller
 {

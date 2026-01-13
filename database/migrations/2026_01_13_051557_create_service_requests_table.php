@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address');
             $table->date('preferred_date');
             $table->text('note')->nullable();
-            $table->enum('status', ["new","scheduled","done","cancelled"])->default('new');
+            $table->enum('status', ['new', 'scheduled', 'done', 'cancelled'])->default('new');
             $table->timestamps();
         });
 

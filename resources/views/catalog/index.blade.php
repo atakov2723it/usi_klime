@@ -31,5 +31,17 @@
 @endforeach
 </ul>
 
+
+@if(auth()->check())
+    <form method="POST" action="{{ route('checkout.store') }}">
+        @csrf
+        <button type="submit">Checkout</button>
+    </form>
+@else
+    <p>
+        <a href="{{ route('login') }}">Login</a> to checkout
+    </p>
+@endif
+
 </body>
 </html>

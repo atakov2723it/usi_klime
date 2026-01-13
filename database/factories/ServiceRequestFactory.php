@@ -20,7 +20,7 @@ class ServiceRequestFactory extends Factory
             'address' => fake()->word(),
             'preferred_date' => fake()->date(),
             'note' => fake()->text(),
-            'status' => fake()->randomElement(["new","scheduled","done","cancelled"]),
+            'status' => fake()->randomElement(['new', 'scheduled', 'done', 'cancelled']),
         ];
     }
 }

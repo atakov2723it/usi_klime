@@ -14,7 +14,7 @@ class OrderFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'status' => fake()->randomElement(["pending","paid","shipped","cancelled"]),
+            'status' => fake()->randomElement(['pending', 'paid', 'shipped', 'cancelled']),
             'total' => fake()->numberBetween(-10000, 10000),
         ];
     }

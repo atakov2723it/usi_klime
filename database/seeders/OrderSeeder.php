@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class OrderSeeder extends Seeder
@@ -14,11 +13,11 @@ class OrderSeeder extends Seeder
     {
         \App\Models\User::factory()->count(5)->create();
 
-    $users = \App\Models\User::all();
+        $users = \App\Models\User::all();
 
-    \App\Models\Order::factory()
-        ->count(10)
-        ->state(fn () => ['user_id' => $users->random()->id])
-        ->create();
+        \App\Models\Order::factory()
+            ->count(10)
+            ->state(fn () => ['user_id' => $users->random()->id])
+            ->create();
     }
 }

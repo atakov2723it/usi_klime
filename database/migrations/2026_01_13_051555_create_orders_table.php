@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->enum('status', ["pending","paid","shipped","cancelled"])->default('pending');
+            $table->enum('status', ['pending', 'paid', 'shipped', 'cancelled'])->default('pending');
             $table->integer('total')->default(0);
             $table->timestamps();
         });
