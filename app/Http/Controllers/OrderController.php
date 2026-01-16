@@ -11,14 +11,13 @@ use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
-    {
-        $orders = Order::all();
+    public function index()
+{
+    $orders = Order::latest()->get();
 
-        return view('order.index', [
-            'orders' => $orders,
-        ]);
-    }
+    return view('order.index', ['orders' => $orders]);
+}
+
 
     public function create(Request $request)
     {
@@ -32,7 +31,7 @@ class OrderController extends Controller
             ['user_id' => auth()->id()]
         ));
 
-        return redirect()->route('orders.index');
+        return redirect()->route('orders.mine');
     }
 
     public function show(Request $request, Order $order)
@@ -50,20 +49,27 @@ class OrderController extends Controller
     }
 
     public function update(OrderUpdateRequest $request, Order $order)
-    {
-        $order->update($request->validated());
+{
+    $order->update($request->validated());
 
-        $request->session()->flash('order.id', $order->id);
+    $request->session()->flash('order.id', $order->id);
 
-        return redirect()->route('orders.index');
-    }
+    return redirect()->route('admin.orders.index')
+        ->with('success', 'Porudžbina je ažurirana.');
+}
+
 
     public function destroy(Request $request, Order $order)
-    {
-        $order->delete();
+{
+    
+    $order->items()->delete();
 
-        return redirect()->route('orders.index');
-    }
+    $order->delete();
+
+    return redirect()->route('admin.orders.index')
+        ->with('success', 'Porudžbina je obrisana.');
+}
+
 
     public function myOrders()
     {

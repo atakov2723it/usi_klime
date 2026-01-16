@@ -14,7 +14,7 @@
     <div class="py-8">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm rounded-xl p-6">
-                <form method="POST" action="{{ route('service-requests.store') }}" class="space-y-4">
+                <form method="POST" action="{{ route('service.store') }}" class="space-y-4">
                     @csrf
 
                     <div>

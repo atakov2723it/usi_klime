@@ -16,33 +16,16 @@ Route::get('/', function () {
         : redirect()->route('login');
 });
 
-//  USE-CASE (public)
+// USE-CASE (public)
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
 
-//  USE-CASE (auth)
+// USE-CASE (auth)
 Route::post('/checkout', [CheckoutController::class, 'store'])
     ->middleware('auth')
     ->name('checkout.store');
 
-//  ADMIN/CRUD (resource) - ovo je ono što je Blueprint generisao
-Route::middleware('auth')->group(function () {
-    Route::resource('products', ProductController::class);
-    Route::resource('orders', OrderController::class);
-    Route::resource('order-items', OrderItemController::class);
-    Route::resource('service-requests', ServiceRequestController::class);
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-Route::get('/my-orders', [\App\Http\Controllers\OrderController::class, 'myOrders'])
+Route::get('/my-orders', [OrderController::class, 'myOrders'])
     ->middleware('auth')
     ->name('orders.mine');
 
@@ -54,8 +37,34 @@ Route::post('/servis', [ServiceRequestController::class, 'store'])
     ->middleware('auth')
     ->name('service.store');
 
-Route::get('/my-orders', [\App\Http\Controllers\OrderController::class, 'myOrders'])
+// Profile/Dashboard (Breeze)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// ADMIN CRUD (sve) - samo admin vidi
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'admin'])
+    ->group(function () {
+        Route::resource('products', ProductController::class);
+        Route::resource('orders', OrderController::class);
+        Route::resource('order-items', OrderItemController::class);
+        Route::resource('service-requests', ServiceRequestController::class);
+    });
+
+Route::get('/servis', [ServiceRequestController::class, 'create'])
     ->middleware('auth')
-    ->name('orders.mine');
+    ->name('service.create');
+
+Route::post('/servis', [ServiceRequestController::class, 'store'])
+    ->middleware('auth')
+    ->name('service.store');
 
 require __DIR__.'/auth.php';

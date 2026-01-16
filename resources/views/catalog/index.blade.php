@@ -13,7 +13,7 @@
 
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            {{-- FILTER BAR --}}
+           
             <div class="bg-white shadow-sm rounded-xl p-4">
                 <form method="GET" action="{{ route('catalog.index') }}" class="grid grid-cols-1 md:grid-cols-4 gap-3">
                     <div>
@@ -64,7 +64,7 @@
                 </form>
             </div>
 
-            {{-- LISTA PROIZVODA --}}
+          
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse ($products as $p)
                     <div class="bg-white shadow-sm rounded-xl p-5 flex flex-col">

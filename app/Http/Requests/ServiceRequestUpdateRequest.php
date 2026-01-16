@@ -8,17 +8,17 @@ class ServiceRequestUpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        return true; // admin ti je već zaštićen middleware-om
     }
 
     public function rules(): array
     {
         return [
+            'phone' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:50'],
-            'desired_date' => ['required', 'date'],
-            'description' => ['required', 'string', 'max:2000'],
-            'status' => ['nullable', 'string', 'max:50'], // ako ima status u tabeli
+            'preferred_date' => ['required', 'date'],
+            'note' => ['nullable', 'string'],
+            'status' => ['required', 'in:new,scheduled,done,cancelled'],
         ];
     }
 }

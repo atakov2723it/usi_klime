@@ -1,5 +1,4 @@
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-   
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
@@ -18,27 +17,31 @@
 
                     @auth
                         <x-nav-link :href="route('orders.mine')" :active="request()->routeIs('orders.mine')">
-                         Moje narudžbine
+                            Moje porudžbine
                         </x-nav-link>
 
-                    @endauth
-                    @auth
-                        <x-nav-link :href="route('service.create')" :active="request()->routeIs('service.create')">
+                        <x-nav-link :href="route('service.create')" :active="request()->routeIs('service.*')">
                             Zakazivanje servisa
                         </x-nav-link>
+
+                        @if(auth()->user()->is_admin)
+                            <x-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
+                                Admin: Sve porudžbine
+                            </x-nav-link>
+
+                            <x-nav-link :href="route('admin.service-requests.index')" :active="request()->routeIs('admin.service-requests.*')">
+                                Admin: Servisi
+                            </x-nav-link>
+
+                            
+                        @endif
                     @endauth
-
-                    
-
-
-
                 </div>
             </div>
 
             <!-- Right Side -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 @auth
-                    <!-- Settings Dropdown -->
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -59,7 +62,6 @@
 
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
-
                                 <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault(); this.closest('form').submit();">
                                     {{ __('Logout') }}
@@ -68,10 +70,8 @@
                         </x-slot>
                     </x-dropdown>
                 @else
-                    <!-- Guest links -->
                     <div class="flex items-center gap-3">
-                        <a href="{{ route('login') }}"
-                           class="text-sm font-medium text-gray-700 hover:text-gray-900">
+                        <a href="{{ route('login') }}" class="text-sm font-medium text-gray-700 hover:text-gray-900">
                             Login
                         </a>
 
@@ -104,9 +104,26 @@
 
             @auth
                 <x-responsive-nav-link :href="route('orders.mine')" :active="request()->routeIs('orders.mine')">
-                {{ __('Moje narudžbine') }}
+                    {{ __('Moje narudžbine') }}
                 </x-responsive-nav-link>
 
+                <x-responsive-nav-link :href="route('service.create')" :active="request()->routeIs('service.*')">
+                    {{ __('Zakazivanje servisa') }}
+                </x-responsive-nav-link>
+
+                @if(auth()->user()->is_admin)
+                    <x-responsive-nav-link :href="route('admin.orders.index')" :active="request()->routeIs('admin.orders.*')">
+                        {{ __('Admin: Sve porudžbine') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link :href="route('admin.service-requests.index')" :active="request()->routeIs('admin.service-requests.*')">
+                        {{ __('Admin: Servisi') }}
+                    </x-responsive-nav-link>
+
+                    <x-responsive-nav-link :href="route('admin.products.index')" :active="request()->routeIs('admin.products.*')">
+                        {{ __('Admin: Proizvodi') }}
+                    </x-responsive-nav-link>
+                @endif
             @endauth
         </div>
 
@@ -124,7 +141,6 @@
 
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
-
                         <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault(); this.closest('form').submit();">
                             {{ __('Logout') }}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ServiceRequestStoreRequest;
 use App\Http\Requests\ServiceRequestUpdateRequest;
 use App\Models\ServiceRequest;
 use Illuminate\Http\RedirectResponse;
@@ -25,18 +26,17 @@ class ServiceRequestController extends Controller
         return view('serviceRequest.create');
     }
 
-    public function store(\App\Http\Requests\ServiceRequestStoreRequest $request)
+    public function store(ServiceRequestStoreRequest $request): RedirectResponse
     {
-        ServiceRequest::create([
-            'user_id' => Auth::id(),
-            'product_id' => $request->product_id,
-            'phone' => $request->phone,
-            'address' => $request->address,
-            'preferred_date' => $request->preferred_date,
-            'note' => $request->note,
-            'status' => 'new', // ✅ DOZVOLJENO
-        ]);
+        ServiceRequest::create(array_merge(
+            $request->validated(),
+            [
+                'user_id' => Auth::id(),
+                'status' => 'new',
+            ]
+        ));
 
+        
         return redirect()
             ->route('orders.mine')
             ->with('success', 'Servis je uspešno zakazan.');
@@ -60,19 +60,21 @@ class ServiceRequestController extends Controller
     {
         $serviceRequest->update($request->validated());
 
-        $request->session()->flash('serviceRequest.id', $serviceRequest->id);
-
-        return redirect()->route('service-requests.index');
+        return redirect()
+            ->route('admin.service-requests.index')
+            ->with('success', 'Servisni zahtev je ažuriran.');
     }
 
     public function destroy(Request $request, ServiceRequest $serviceRequest): RedirectResponse
     {
         $serviceRequest->delete();
 
-        return redirect()->route('service-requests.index');
+        return redirect()
+            ->route('admin.service-requests.index')
+            ->with('success', 'Servisni zahtev je obrisan.');
     }
 
-    public function mine()
+    public function mine(): View
     {
         $serviceRequests = ServiceRequest::where('user_id', Auth::id())
             ->latest()

@@ -1,8 +1,13 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Moje narudžbine
+        <h2 class="text-xl font-semibold">
+            @if(auth()->user()->is_admin)
+                Sve porudžbine
+            @else
+                Moje porudžbine
+            @endif
         </h2>
+
     </x-slot>
 
     <div class="py-8">
@@ -24,6 +29,7 @@
                                 ">
                                     {{ strtoupper($order->status) }}
                                 </div>
+                                    
                             </div>
 
                             <div class="text-right">
@@ -31,6 +37,23 @@
                                 <div class="text-lg font-semibold text-gray-900">
                                     {{ number_format((int)$order->total, 0, ',', '.') }} RSD
                                 </div>
+                                <td class="text-right">
+    <a href="{{ route('admin.orders.edit', $order) }}"
+       class="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-indigo-700">
+        Edit
+    </a>
+
+    <form method="POST" action="{{ route('admin.orders.destroy', $order) }}" class="inline">
+        @csrf
+        @method('DELETE')
+        <button type="submit"
+                onclick="return confirm('Obrisati porudžbinu?')"
+                class="inline-flex items-center rounded-lg bg-red-600 px-3 py-1.5 text-sm font-semibold text-white hover:bg-red-700">
+            Obriši
+        </button>
+    </form>
+</td>
+
                             </div>
                         </div>
                     @empty
@@ -40,7 +63,8 @@
                     @endforelse
                 </div>
             </div>
-
+                
         </div>
     </div>
+    
 </x-app-layout>
