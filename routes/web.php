@@ -11,8 +11,11 @@ use App\Http\Controllers\ServiceRequestController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return auth()->check()
+        ? redirect()->route('catalog.index')
+        : redirect()->route('login');
 });
+
 
 //  USE-CASE (public)
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
@@ -40,5 +43,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+Route::get('/my-orders', [\App\Http\Controllers\OrderController::class, 'myOrders'])
+    ->middleware('auth')
+    ->name('orders.mine');
+
 
 require __DIR__.'/auth.php';

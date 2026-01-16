@@ -6,6 +6,7 @@ use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -24,13 +25,15 @@ class OrderController extends Controller
     }
 
     public function store(OrderStoreRequest $request)
-    {
-        $order = Order::create($request->validated());
+{
+    $order = Order::create(array_merge(
+        $request->validated(),
+        ['user_id' => auth()->id()]
+    ));
 
-        $request->session()->flash('order.id', $order->id);
+    return redirect()->route('orders.index');
+}
 
-        return redirect()->route('orders.index');
-    }
 
     public function show(Request $request, Order $order)
     {
@@ -61,4 +64,15 @@ class OrderController extends Controller
 
         return redirect()->route('orders.index');
     }
+
+
+    public function myOrders()
+    {
+        $orders = \App\Models\Order::where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
+        return view('order.index', ['orders' => $orders]);
+}
+
 }
