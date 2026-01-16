@@ -12,12 +12,11 @@ use Illuminate\Support\Facades\Auth;
 class OrderController extends Controller
 {
     public function index()
-{
-    $orders = Order::latest()->get();
+    {
+        $orders = Order::latest()->get();
 
-    return view('order.index', ['orders' => $orders]);
-}
-
+        return view('order.index', ['orders' => $orders]);
+    }
 
     public function create(Request $request)
     {
@@ -49,27 +48,25 @@ class OrderController extends Controller
     }
 
     public function update(OrderUpdateRequest $request, Order $order)
-{
-    $order->update($request->validated());
+    {
+        $order->update($request->validated());
 
-    $request->session()->flash('order.id', $order->id);
+        $request->session()->flash('order.id', $order->id);
 
-    return redirect()->route('admin.orders.index')
-        ->with('success', 'Porudžbina je ažurirana.');
-}
-
+        return redirect()->route('admin.orders.index')
+            ->with('success', 'Porudžbina je ažurirana.');
+    }
 
     public function destroy(Request $request, Order $order)
-{
-    
-    $order->items()->delete();
+    {
 
-    $order->delete();
+        $order->items()->delete();
 
-    return redirect()->route('admin.orders.index')
-        ->with('success', 'Porudžbina je obrisana.');
-}
+        $order->delete();
 
+        return redirect()->route('admin.orders.index')
+            ->with('success', 'Porudžbina je obrisana.');
+    }
 
     public function myOrders()
     {

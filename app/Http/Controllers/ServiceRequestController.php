@@ -36,7 +36,6 @@ class ServiceRequestController extends Controller
             ]
         ));
 
-        
         return redirect()
             ->route('orders.mine')
             ->with('success', 'Servis je uspešno zakazan.');

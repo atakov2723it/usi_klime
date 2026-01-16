@@ -15,7 +15,7 @@ class OrderUpdateRequest extends FormRequest
     {
         return [
             'status' => ['required', 'in:pending,paid,shipped,cancelled'],
-            
+
         ];
     }
 }
