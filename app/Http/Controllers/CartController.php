@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-
     public function add(Request $request)
     {
         $data = $request->validate([
@@ -25,5 +23,4 @@ class CartController extends Controller
 
         return back()->with('success', 'Dodato u korpu.');
     }
-
 }

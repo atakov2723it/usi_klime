@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ServiceRequestStoreRequest;
 use App\Http\Requests\ServiceRequestUpdateRequest;
 use App\Models\ServiceRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\View\View;
 
 class ServiceRequestController extends Controller
 {
@@ -28,21 +26,21 @@ class ServiceRequestController extends Controller
     }
 
     public function store(\App\Http\Requests\ServiceRequestStoreRequest $request)
-{
-    ServiceRequest::create([
-        'user_id' => Auth::id(),
-        'product_id' => $request->product_id,
-        'phone' => $request->phone,
-        'address' => $request->address,
-        'preferred_date' => $request->preferred_date,
-        'note' => $request->note,
-        'status' => 'new', // ✅ DOZVOLJENO
-    ]);
+    {
+        ServiceRequest::create([
+            'user_id' => Auth::id(),
+            'product_id' => $request->product_id,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'preferred_date' => $request->preferred_date,
+            'note' => $request->note,
+            'status' => 'new', // ✅ DOZVOLJENO
+        ]);
 
-    return redirect()
-        ->route('orders.mine')
-        ->with('success', 'Servis je uspešno zakazan.');
-}
+        return redirect()
+            ->route('orders.mine')
+            ->with('success', 'Servis je uspešno zakazan.');
+    }
 
     public function show(Request $request, ServiceRequest $serviceRequest): View
     {
@@ -75,13 +73,13 @@ class ServiceRequestController extends Controller
     }
 
     public function mine()
-{
-    $serviceRequests = ServiceRequest::where('user_id', Auth::id())
-        ->latest()
-        ->get();
+    {
+        $serviceRequests = ServiceRequest::where('user_id', Auth::id())
+            ->latest()
+            ->get();
 
-    return view('serviceRequest.mine', [
-        'serviceRequests' => $serviceRequests,
-    ]);
-}
+        return view('serviceRequest.mine', [
+            'serviceRequests' => $serviceRequests,
+        ]);
+    }
 }

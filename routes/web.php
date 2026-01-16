@@ -16,7 +16,6 @@ Route::get('/', function () {
         : redirect()->route('login');
 });
 
-
 //  USE-CASE (public)
 Route::get('/catalog', [CatalogController::class, 'index'])->name('catalog.index');
 Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
@@ -58,8 +57,5 @@ Route::post('/servis', [ServiceRequestController::class, 'store'])
 Route::get('/my-orders', [\App\Http\Controllers\OrderController::class, 'myOrders'])
     ->middleware('auth')
     ->name('orders.mine');
-
-
-
 
 require __DIR__.'/auth.php';

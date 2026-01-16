@@ -16,15 +16,14 @@ class ServiceRequest extends Model
      * @var array
      */
     protected $fillable = [
-    'user_id',
-    'product_id',
-    'phone',
-    'address',
-    'preferred_date',
-    'note',
-    'status',
-];
-
+        'user_id',
+        'product_id',
+        'phone',
+        'address',
+        'preferred_date',
+        'note',
+        'status',
+    ];
 
     /**
      * Get the attributes that should be cast.

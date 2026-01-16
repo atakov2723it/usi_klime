@@ -12,14 +12,13 @@ class ServiceRequestStoreRequest extends FormRequest
     }
 
     public function rules(): array
-{
-    return [
-        'product_id' => ['nullable', 'integer', 'exists:products,id'],
-        'phone' => ['required', 'string', 'max:50'],
-        'address' => ['required', 'string', 'max:255'],
-        'preferred_date' => ['required', 'date'],
-        'note' => ['nullable', 'string', 'max:2000'],
-    ];
-}
-
+    {
+        return [
+            'product_id' => ['nullable', 'integer', 'exists:products,id'],
+            'phone' => ['required', 'string', 'max:50'],
+            'address' => ['required', 'string', 'max:255'],
+            'preferred_date' => ['required', 'date'],
+            'note' => ['nullable', 'string', 'max:2000'],
+        ];
+    }
 }
