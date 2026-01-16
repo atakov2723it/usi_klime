@@ -47,5 +47,19 @@ Route::get('/my-orders', [\App\Http\Controllers\OrderController::class, 'myOrder
     ->middleware('auth')
     ->name('orders.mine');
 
+Route::get('/servis', [ServiceRequestController::class, 'create'])
+    ->middleware('auth')
+    ->name('service.create');
+
+Route::post('/servis', [ServiceRequestController::class, 'store'])
+    ->middleware('auth')
+    ->name('service.store');
+
+Route::get('/my-orders', [\App\Http\Controllers\OrderController::class, 'myOrders'])
+    ->middleware('auth')
+    ->name('orders.mine');
+
+
+
 
 require __DIR__.'/auth.php';

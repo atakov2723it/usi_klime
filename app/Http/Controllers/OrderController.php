@@ -7,6 +7,8 @@ use App\Http\Requests\OrderUpdateRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\ServiceRequest;
+
 
 class OrderController extends Controller
 {
@@ -66,13 +68,19 @@ class OrderController extends Controller
     }
 
 
-    public function myOrders()
-    {
-        $orders = \App\Models\Order::where('user_id', Auth::id())
-            ->latest()
-            ->get();
+public function myOrders()
+{
+    $orders = Order::where('user_id', Auth::id())
+        ->latest()
+        ->get();
 
-        return view('order.index', ['orders' => $orders]);
+    $services = ServiceRequest::where('user_id', Auth::id())
+    ->latest()
+    ->get();
+
+
+    return view('order.mine', compact('orders', 'services'));
 }
+
 
 }
